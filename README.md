@@ -1,6 +1,6 @@
 # Claude Code Frontend Design Toolkit
 
-Everything I've found that actually makes Claude Code output better-looking frontends. Skills, plugins, MCP servers, CLAUDE.md tricks — organized by what you're trying to do.
+Everything I've found that actually makes Claude Code output better-looking frontends. Skills, plugins, MCP servers, CLAUDE.md tricks, organized by what you're trying to do.
 
 `February 2026` · `70+ tools` · `9 sections`
 
