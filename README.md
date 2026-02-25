@@ -1,8 +1,8 @@
 # Claude Code Frontend Design Toolkit
 
-Everything I've found that actually makes Claude Code output better-looking frontends. Skills, plugins, MCP servers, CLAUDE.md tricks, organized by what you're trying to do.
+Everything I've found that actually makes Claude Code output better-looking frontends. Skills, plugins, MCP servers, CLAUDE.md tricks — organized by what you're trying to do.
 
-`February 2026` · `70+ tools` · `9 sections`
+`February 2026` · `70+ tools` · `10 sections`
 
 If this is useful, star it so others can find it. PRs welcome — see [Contributing](#contributing).
 
@@ -12,6 +12,7 @@ If this is useful, star it so others can find it. PRs welcome — see [Contribut
 
 - [Design Skills](#design-skills) — Kill the AI slop
 - [Site-Wide Theming](#site-wide-theming--design-tokens) — Make everything match
+- [Animation & Motion](#animation--motion) — GSAP, Framer Motion, scroll effects
 - [UI/UX Intelligence](#uiux-intelligence) — Patterns, a11y, research
 - [Design-to-Code](#design-to-code-pipeline) — Figma pipeline
 - [Testing & Browser Automation](#testing--browser-automation) — Give Claude eyes
@@ -106,15 +107,6 @@ Two modes: **Controlled** (ship to prod — WCAG, full responsive specs, motion 
 | **Source** | [bencium/bencium-claude-code-design-skill](https://github.com/bencium/bencium-claude-code-design-skill) |
 
 Files included: `SKILL.md`, `ACCESSIBILITY.md` (~830 lines), `RESPONSIVE-DESIGN.md` (~600 lines), `MOTION-SPEC.md`, `DESIGN-SYSTEM-TEMPLATE.md`
-
-### OilOil UI/UX Guide
-
-CRAP principles, task-first UX, HCI laws, interaction psychology. Has separate "guide" and "review" modes — one for building, one for critiquing what you built.
-
-| | |
-|---|---|
-| **Author** | oiloil |
-| **Source** | [awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) |
 
 ### Brand Guidelines Skill
 
@@ -256,6 +248,44 @@ Five lines in CLAUDE.md. Works immediately, no install.
 
 ---
 
+## Animation & Motion
+
+*The design skills make Claude think about motion. These give it the actual library knowledge to implement it — GSAP timelines, Framer Motion variants, scroll-triggered effects, and motion auditing.*
+
+### Animation Design Skills (freshtechbro)
+
+23 skills covering the major animation libraries: GSAP + ScrollTrigger, Framer Motion, React Spring, Lottie, anime.js, Locomotive Scroll, Barba.js, and more. Each auto-activates when you ask for that type of animation. Also includes 3D skills (Three.js, React Three Fiber, Babylon.js, A-Frame, PixiJS).
+
+This is the biggest gap the rest of the list doesn't cover — actually *creating* animations, not just polishing them.
+
+| | |
+|---|---|
+| **Author** | freshtechbro |
+| **Install** | `claude plugin marketplace add freshtechbro/claudedesignskills` then install individual skills |
+| **Source** | [freshtechbro/claudedesignskills](https://github.com/freshtechbro/claudedesignskills) |
+
+### Motion Skill (jezweb)
+
+Focused specifically on Motion (formerly Framer Motion). Declarative animations, gestures (drag, hover, tap), scroll effects, spring physics, layout animations, SVG manipulation. Includes bundle optimization patterns — `LazyMotion` at 4.6KB or `useAnimate` at 2.3KB. Tested against React 19 + Next.js 16 + Vite 7 + Tailwind v4.
+
+| | |
+|---|---|
+| **Author** | jezweb |
+| **Source** | [skillsdirectory.com/skills/jezweb-motion](https://www.skillsdirectory.com/skills/jezweb-motion) |
+
+### Design Motion Principles
+
+Motion design audit skill trained on Emil Kowalski, Jakub Krehel, and Jhey Tompkins. Finds conditional UI that *should* be animated but isn't (conditional renders without `AnimatePresence`, dynamic styles without transitions), then gives per-designer recommendations categorized by severity.
+
+Good for reviewing existing code, not just generating new animations.
+
+| | |
+|---|---|
+| **Author** | kylezantos |
+| **Source** | [kylezantos/design-motion-principles](https://github.com/kylezantos/design-motion-principles) |
+
+---
+
 ## UI/UX Intelligence
 
 *Design thinking, UX research, accessibility patterns.*
@@ -292,14 +322,6 @@ User research, personas, user flows, wireframing, prototyping, usability testing
 | | |
 |---|---|
 | **Source** | [claude-plugins.dev](https://claude-plugins.dev/skills/@Useforclaude/skills-claude/ui-ux-design-skill) |
-
-### UI/UX Designer Subagent
-
-A dedicated subagent that auto-spawns when Claude detects UI/UX work. Handles user research, wireframing, prototyping, design implementation. You can also invoke it explicitly.
-
-| | |
-|---|---|
-| **Source** | [buildwithclaude.com/subagent/ui-ux-designer](https://www.buildwithclaude.com/subagent/ui-ux-designer) |
 
 ---
 
@@ -357,15 +379,6 @@ For building multi-component claude.ai HTML artifacts with React, Tailwind, and 
 |---|---|
 | **Source** | [awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) |
 
-### Frontend Slides
-
-Generates animation-heavy HTML presentations. Useful for design reviews and stakeholder demos.
-
-| | |
-|---|---|
-| **Author** | zarazhangrui |
-| **Source** | [awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) |
-
 ---
 
 ## Testing & Browser Automation
@@ -415,9 +428,35 @@ Model-invoked Playwright automation. Auto-activates when Claude detects it needs
 | **Author** | lackeyjb |
 | **Source** | [awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) |
 
-### Ralph Wiggum Plugin
+### Storybook MCP (Chromatic)
 
-Visual testing for iOS/Swift apps via Xcode simulator. Takes screenshots, validates UI, checks behavior in a loop. Fair warning: it can eat your entire token quota in one automated loop. Budget accordingly.
+Gives Claude access to your Storybook component library. It can look up existing components, read their docs and stories, and get build instructions before generating new UI. Also supports visual regression testing through Chromatic — screenshot diffs on every PR.
+
+If you use Storybook, this stops Claude from reinventing components you already have.
+
+| | |
+|---|---|
+| **Author** | Chromatic |
+| **Install** | `claude mcp add storybook-mcp --transport http https://your-storybook-url/mcp --scope project` |
+| **Source** | [chromatic.com](https://www.chromatic.com/) |
+
+### Visual Regression Skill
+
+Generates Storybook stories, Chromatic/Percy/BackstopJS config, and CI workflows for visual regression testing. Tell it "set up visual regression for my Button component" and it detects your stack, creates stories covering all variants, and wires up the CI pipeline.
+
+| | |
+|---|---|
+| **Source** | [claude-plugins.dev/skills/visual-regression](https://claude-plugins.dev/skills/@alekspetrov/navigator/visual-regression) |
+
+### Web Quality Skills (Addy Osmani)
+
+From the author of web performance at Google. Five skills that cover Core Web Vitals (LCP, INP, CLS), accessibility (WCAG 2.1), SEO, and best practices. The orchestrator skill runs a full-site audit. Framework-aware — has specific patterns for Next.js, Vue/Nuxt, Svelte, and plain HTML.
+
+| | |
+|---|---|
+| **Author** | addyosmani |
+| **Install** | `npx add-skill addyosmani/web-quality-skills` |
+| **Source** | [addyosmani/web-quality-skills](https://github.com/addyosmani/web-quality-skills) |
 
 ---
 
@@ -485,14 +524,6 @@ Build UI components with shadcn/ui. Part of the Stitch MCP ecosystem.
 |---|---|
 | **Author** | Google Labs |
 
-### Claude Starter — 40 skills across 8 domains
-
-Kitchen-sink config template. Includes frontend skills plus TOON format support for better instruction-following. Good starting point if you want to install a bunch of stuff at once.
-
-| | |
-|---|---|
-| **Source** | [awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) |
-
 ### TypeScript LSP
 
 Real-time type checking via Language Server Protocol. Catches errors before Claude even finishes writing. If you write TypeScript, just install this.
@@ -520,14 +551,6 @@ npx ui-skills add fixing-motion-performance
 ```
 
 Design, then craft, then a11y, then perf. That's the loop.
-
-### Video Toolkit
-
-Video production with Remotion, ElevenLabs, FFmpeg, and Playwright. Generate product demos and walkthrough videos from your frontend. Niche but cool.
-
-| | |
-|---|---|
-| **Source** | [awesome-claude-skills](https://github.com/BehiSecc/awesome-claude-skills) |
 
 ---
 
@@ -642,9 +665,15 @@ npx ui-skills add fixing-motion-performance
 | UI Styling (ClaudeKit) | Skill | Theming | — | Manual copy |
 | CLAUDE.md Theme Block | Config | Theming | N/A | Copy-paste |
 | Create Design System Rules | Skill | Theming | — | Figma MCP needed |
+| Animation Skills (freshtechbro) | Skill | Animation | — | One command |
+| Motion Skill (jezweb) | Skill | Animation | — | Manual copy |
+| Design Motion Principles | Skill | Animation | — | Manual copy |
 | Figma MCP | MCP | Design to Code | Official | Config needed |
+| Storybook MCP | MCP | Testing | — | Config needed |
 | Playwright MCP | MCP | Testing | 20k+ | One command |
 | Chrome DevTools MCP | MCP | Debug | Official | One command |
+| Web Quality Skills (Osmani) | Skill | Perf/A11y/SEO | — | One command |
+| Visual Regression | Skill | Testing | — | Manual copy |
 | Context7 | MCP | Docs | — | One command |
 | TypeScript LSP | LSP | Types | Official | One command |
 | Vercel MCP | MCP | Deploy | — | Config needed |
