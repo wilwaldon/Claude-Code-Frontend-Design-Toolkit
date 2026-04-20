@@ -19,6 +19,10 @@ Bar: Awwwards SOTD. Not good. Stunning. If it wouldn't win, keep going.
 
 Warm Editorial · Dark OLED Luxury · Cyberpunk · Aurora Glass · Swiss Minimalism · Brutalism · Block Maximalism · Retro-Futuristic · Organic Biomorphic · Editorial · Glassmorphism · Solarpunk
 
+## Custom Effects
+
+When asked for a specific animation or effect — build it exactly as requested, at full quality. No effect is off-limits. If it can be done in CSS, JS, Canvas, WebGL, SVG, or Three.js — execute it. Match the same standard: intentional, smooth, polished. If the request is vague, make a creative choice and go bold.
+
 ## Effects — Creative Inspiration (pick what fits, not all)
 
 **Scroll & Motion:** Lenis smooth scroll · scroll-triggered reveals (fade/rise/clip/scale) · parallax depth layers · pinned narratives · horizontal scroll · staggered word/letter reveals · number counters · progress bar
