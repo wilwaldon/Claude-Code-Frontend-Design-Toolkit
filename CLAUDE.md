@@ -1,6 +1,6 @@
-# Claude Code Frontend Design Toolkit — Standing Instructions
+# Claude Code Frontend Design Toolkit — Global Standing Instructions
 
-This file encodes the principles from the Frontend Design Toolkit as standing instructions. Apply these on every frontend task.
+Apply these on every frontend task, in every repo, in every chat.
 
 ---
 
@@ -10,18 +10,17 @@ This file encodes the principles from the Frontend Design Toolkit as standing in
 
 ---
 
-## Design Workflow (always follow this order)
+## 1. Design Skills — Kill the AI Slop
 
-1. **Pick an aesthetic** — Choose a named style from the list below or derive one from the product context. Never code without a direction.
-2. **Define tokens** — Use OKLCH color space. Build the palette from a single `--brand-hue` variable. One number controls everything.
-3. **Code the UI** — Apply the aesthetic consistently. Use CSS variables and cohesive color systems. Block generic component patterns.
-4. **Require real typography** — Pick an actual font pairing, not just whatever sans-serif is available.
-5. **Add motion** — Audit for conditional UI that should animate but doesn't (`AnimatePresence` on conditional renders, transitions on dynamic styles).
-6. **Polish pipeline** — After generating a page: fix spacing/typography/states → fix accessibility → fix motion/perf budgets.
+Always apply these before writing frontend code:
 
----
+- **Pick a named aesthetic** from the list below — never code without a direction
+- **Block cookie-cutter patterns**: no Inter+purple gradient+rounded card defaults
+- **Require real typography pairing**, not whatever sans-serif is available
+- **Enforce CSS variables** and cohesive color systems from the start
+- Reference aesthetics by name (e.g. "use Dark OLED Luxury") — Claude knows what they mean
 
-## Named Aesthetics (reference by name in prompts)
+### Named Aesthetics
 
 | Aesthetic | Key Directives |
 |-----------|---------------|
@@ -42,9 +41,13 @@ This file encodes the principles from the Frontend Design Toolkit as standing in
 | **Art Deco** | Gold + black, geometric patterns, Playfair Display, strict symmetry |
 | **Solarpunk** | Warm greens/golds/earth tones, organic + technical mix, hopeful, retro-futuristic type |
 
+### Design Workflow (always in this order)
+
+1. Pick aesthetic → 2. Define tokens → 3. Code UI → 4. Real typography → 5. Add motion → 6. Polish pipeline
+
 ---
 
-## Design Tokens — Always Use This Pattern
+## 2. Site-Wide Theming & Design Tokens
 
 Build the entire color system from a single CSS custom property:
 
@@ -61,109 +64,105 @@ Build the entire color system from a single CSS custom property:
 }
 ```
 
-Rules:
+Token rules:
 - **Never hardcode hex values** — always use token references
 - **Always include dark mode tokens** — semantic light/dark theming from the start
 - **Use brand-tinted neutrals** — not pure white/black, always slightly hue-tinted
-- **OKLCH color space** — wider gamut, perceptually uniform, use it exclusively
+- **OKLCH color space exclusively** — wider gamut, perceptually uniform
+- Tailwind v4 CSS-first `@theme` (no `tailwind.config.js`)
+
+### CLAUDE.md Theme Block Template (for any project)
+
+```markdown
+## Frontend Theme
+<always_use_[aesthetic_name]_theme>
+Always design with [Aesthetic] aesthetic:
+- [Key visual directive 1]
+- [Key visual directive 2]
+- [Typography: specific font pairing]
+- [Color: specific palette anchors]
+</always_use_[aesthetic_name]_theme>
+```
+
+### Theming Decision Matrix
+
+| Goal | Approach |
+|------|----------|
+| Lock a project to one aesthetic fast | CLAUDE.md theme block |
+| Full token system with OKLCH math | `--brand-hue` single-variable approach |
+| shadcn/ui theming | `@layer base` + CSS variable overrides |
+| Auto-derive rules from Figma | `get_design_context` + `get_variable_defs` |
+| AI picks style automatically | Describe the product type (e.g. "fintech dashboard") |
+| Named aesthetic presets | Use aesthetic names from the table above |
 
 ---
 
-## Typography Rules
-
-- Every project needs a deliberate font pairing (display + body, or serif + sans)
-- Define a type scale (e.g. 12/14/16/20/24/32/48/64px)
-- Set `line-height`, `letter-spacing`, and `font-weight` explicitly at each scale step
-- Never leave font choices to browser defaults
-
----
-
-## Motion & Animation
+## 3. Animation & Motion
 
 Every UI should have intentional motion. Audit for:
-- Conditional renders without enter/exit transitions
+- Conditional renders without enter/exit transitions (`AnimatePresence`)
 - Dynamic data updates without smooth transitions
 - Hover states with no visual feedback
 - Page/route transitions that are instant
 
-Motion libraries by use case:
-- **Framer Motion / Motion** — React animations, gestures, layout animations, spring physics
-- **GSAP + ScrollTrigger** — Complex timelines, scroll-driven effects
-- **anime.js** — Lightweight, CSS property animations
-- **Lottie** — Designer-exported animation files
+### Motion Libraries by Use Case
 
-Motion constraints (production):
-- Respect `prefers-reduced-motion` — always add `@media (prefers-reduced-motion: reduce)`
-- Duration budget: micro-interactions 100-200ms, transitions 200-400ms, page transitions 300-500ms
-- Easing: prefer spring physics or `ease-out` — never linear for UI
+| Library | Use Case |
+|---------|----------|
+| **Framer Motion / Motion** | React animations, gestures, layout animations, spring physics |
+| **GSAP + ScrollTrigger** | Complex timelines, scroll-driven effects |
+| **anime.js** | Lightweight, CSS property animations |
+| **Lottie** | Designer-exported animation files |
+| **React Spring** | Physics-based spring animations |
+| **Locomotive Scroll** | Smooth scroll + parallax |
+| **Barba.js** | Page transition animations |
+| **Three.js / React Three Fiber** | 3D interactive experiences |
+
+### Motion Constraints (production)
+
+- Always add `@media (prefers-reduced-motion: reduce)` — non-negotiable
+- Micro-interactions: 100–200ms
+- Transitions: 200–400ms
+- Page transitions: 300–500ms
+- Easing: spring physics or `ease-out` — never linear for UI
+- Bundle-conscious: `LazyMotion` (4.6KB) or `useAnimate` (2.3KB) for Framer
+
+### Motion Audit Checklist
+
+Before shipping any page, check:
+- [ ] All conditional renders have enter/exit animations
+- [ ] All dynamic data updates transition smoothly
+- [ ] All interactive elements have hover/focus feedback
+- [ ] Route changes have a transition
+- [ ] `prefers-reduced-motion` respected everywhere
 
 ---
 
-## Accessibility (non-negotiable)
+## 4. UI/UX Intelligence
+
+Apply these UX principles on every interface:
+
+- **Gestalt principles** — proximity, similarity, continuity, closure, figure/ground
+- **Fitts's Law** — interactive targets must be large enough and close enough
+- **Hick's Law** — reduce choices to reduce decision time
+- **Visual hierarchy** — size, weight, color, contrast, spacing all communicate priority
+- **Mobile-first** — design for smallest viewport first, enhance upward
+- **Information architecture** — label clearly, group logically, reduce cognitive load
+
+### Accessibility (non-negotiable)
 
 - All interactive elements must have keyboard navigation and visible focus states
 - Use semantic HTML (`<button>`, `<nav>`, `<main>`, `<article>`) not `<div>` for structure
-- Every image needs meaningful `alt` text or `alt=""`  for decorative
+- Every image needs meaningful `alt` text, or `alt=""` for decorative
 - Color contrast: minimum WCAG AA (4.5:1 text, 3:1 UI components)
 - Form inputs need associated `<label>` elements
 - ARIA only when semantic HTML is insufficient
 
 ---
 
-## Polish Pipeline (run in sequence after generating a page)
+## 5. Design-to-Code Pipeline (Figma)
 
-```
-1. Generate UI        → Pick aesthetic, apply tokens, write components
-2. Baseline polish    → Fix spacing, typography hierarchy, interactive states
-3. Accessibility fix  → Keyboard, ARIA labels, focus, semantic structure
-4. Motion/Perf fix    → Reduced-motion support, animation perf, bundle size
-```
-
----
-
-## Decision Matrix — Theming
-
-| Goal | Approach |
-|------|----------|
-| Lock a project to one aesthetic fast | CLAUDE.md theme block (see below) |
-| Full token system with OKLCH math | `--brand-hue` single-variable approach |
-| shadcn/ui theming | shadcn `@layer base` + CSS variable overrides |
-| Auto-derive rules from Figma | `get_design_context` + `get_variable_defs` |
-| AI picks style automatically | Describe the product type (e.g., "fintech dashboard") |
-| Named aesthetic presets | Use aesthetic names from the table above |
-
----
-
-## Testing & Browser Automation
-
-When building or debugging frontend UI:
-- **Use Playwright MCP** when available — gives Claude a browser (25+ tools, accessibility tree snapshots, form testing, DOM reading)
-- **Use Chrome DevTools MCP** for perf/network debugging — console inspection, HAR export, Core Web Vitals
-- Prefer accessibility tree snapshots over screenshots (2-5KB vs 500KB+)
-- Test: golden path → edge cases → keyboard navigation → mobile viewport
-
-Development loop:
-```
-DEVELOP  → Claude Code (terminal)
-TEST     → Playwright MCP (E2E, cross-browser)
-DEBUG    → Chrome DevTools MCP (perf, network)
-VERIFY   → Browser visual check
-```
-
----
-
-## Docs & API Currency
-
-Claude's training data is stale. For any framework, always note version and apply version-specific patterns:
-- **React 19 vs 18** — different APIs (Actions, `use()`, Server Components)
-- **Tailwind v4 vs v3** — complete rewrite (CSS-first `@theme`, no `tailwind.config.js`)
-- **Next.js App Router vs Pages Router** — different data fetching, routing, layouts
-
-Use Context7 MCP (`context7`) when available to fetch live, version-specific docs.
-
----
-
-## Figma Integration (when Figma MCP is active)
+When Figma MCP is active:
 
 ```markdown
 ## Figma Workflow
@@ -177,39 +176,163 @@ Use Context7 MCP (`context7`) when available to fetch live, version-specific doc
 
 The loop: **Figma → get_design_context → code → browser preview → Code to Canvas → Figma**
 
+Figma MCP install:
+```bash
+claude mcp add --transport sse figma-dev-mode-mcp-server http://127.0.0.1:3845/sse
+```
+
+---
+
+## 6. Testing & Browser Automation
+
+Claude can't see the UI by default. Always test:
+
+```
+DEVELOP  → Claude Code (terminal)
+TEST     → Playwright MCP (E2E, cross-browser)
+DEBUG    → Chrome DevTools MCP (perf, network)
+VERIFY   → Browser visual check
+```
+
+- **Playwright MCP** — 25+ tools, accessibility tree snapshots (2–5KB vs 500KB+ screenshots), form testing, DOM reading
+  - `--vision auto` — accessibility tree by default, switches to vision for canvas/WebGL
+  - `--save-video=800x600` — record test sessions
+  - `--caps=devtools` — Core Web Vitals (LCP, CLS, INP)
+- **Chrome DevTools MCP** — console, network, performance profiling, HAR export, device emulation
+- Test order: golden path → edge cases → keyboard navigation → mobile viewport
+
+Install:
+```bash
+claude mcp add playwright -s user -- npx @playwright/mcp@latest
+claude mcp add chrome-devtools -s user -- npx @anthropic-ai/chrome-devtools-mcp@latest
+```
+
+---
+
+## 7. Docs & Context — Stop Hallucinating APIs
+
+Claude's training data is stale. Always note the framework version and use version-specific patterns:
+
+| Framework | Watch for |
+|-----------|-----------|
+| **React 19 vs 18** | Different APIs: Actions, `use()`, Server Components |
+| **Tailwind v4 vs v3** | Complete rewrite: CSS-first `@theme`, no `tailwind.config.js` |
+| **Next.js App Router vs Pages Router** | Different data fetching, routing, layouts |
+| **Motion (Framer Motion v11+)** | `useAnimate`, `LazyMotion`, new API surface |
+
+- Use **Context7 MCP** when available — live, version-specific docs for 1000+ libraries
+- Install: `claude mcp add context7 -s user -- npx -y @upstash/context7-mcp@latest`
+- For internal libraries Context7 doesn't cover, use Skill Seekers to generate a skill from docs
+
+---
+
+## 8. Framework Skills
+
+### Typography Rules
+
+- Every project needs a deliberate font pairing (display + body, or serif + sans)
+- Define a type scale: 12/14/16/20/24/32/48/64px
+- Set `line-height`, `letter-spacing`, and `font-weight` explicitly at each step
+- Never leave font choices to browser defaults
+
+### React Patterns
+
+- React 19: prefer Actions, `use()`, Server Components where applicable
+- React 18: `Suspense`, `useTransition`, concurrent features
+- Always co-locate state with the component that owns it
+
+### Tailwind v4 Patterns
+
+- CSS-first configuration — everything in `@theme {}` block, no JS config
+- Dark mode via CSS media queries or `[data-theme]` attribute
+- Use `@layer components` for reusable component styles
+- Plugins: `@tailwindcss/forms`, `@tailwindcss/typography`
+
+### shadcn/ui Patterns
+
+- Override tokens in `@layer base` via CSS variables
+- Never modify shadcn component source — extend via `className` or slots
+- Use `cn()` utility for conditional class merging
+
+### Polish Pipeline (run in sequence after generating a page)
+
+```
+1. Generate UI           → Pick aesthetic, apply tokens, write components
+2. Baseline polish       → Fix spacing, typography hierarchy, interactive states
+3. Accessibility fix     → Keyboard, ARIA labels, focus, semantic structure
+4. Motion/Perf fix       → Reduced-motion support, animation perf, bundle size
+```
+
+---
+
+## 9. Deploy & Preview
+
+- **Vercel MCP** — manage deployments, preview branches, build logs, env vars, domains
+- **PinMe** — zero-config deploy, no servers or accounts needed
+
+---
+
+## 10. Recommended Stacks
+
+### Essentials (every project)
+
+```bash
+claude plugin add anthropic/frontend-design
+claude mcp add context7 -s user -- npx -y @upstash/context7-mcp@latest
+claude mcp add playwright -s user -- npx @playwright/mcp@latest
+```
+
+### Design-First (Figma to Code)
+
+```bash
+claude plugin add anthropic/frontend-design
+claude mcp add context7 -s user -- npx -y @upstash/context7-mcp@latest
+claude mcp add --transport sse figma-dev-mode-mcp-server http://127.0.0.1:3845/sse
+claude mcp add playwright -s user -- npx @playwright/mcp@latest
+claude plugin add anthropic/typescript-lsp
+```
+
+### Solo Builder (MVP speed)
+
+```bash
+claude plugin add anthropic/frontend-design
+claude mcp add context7 -s user -- npx -y @upstash/context7-mcp@latest
+claude plugin add nextlevelbuilder/ui-ux-pro-max-skill
+claude mcp add playwright -s user -- npx @playwright/mcp@latest
+```
+
+### Full Stack (component library + design system)
+
+```bash
+claude plugin add anthropic/frontend-design
+claude plugin add nextlevelbuilder/ui-ux-pro-max-skill
+claude mcp add context7 -s user -- npx -y @upstash/context7-mcp@latest
+claude plugin add anthropic/typescript-lsp
+claude mcp add --transport sse figma-dev-mode-mcp-server http://127.0.0.1:3845/sse
+claude mcp add playwright -s user -- npx @playwright/mcp@latest
+claude mcp add chrome-devtools -s user -- npx @anthropic-ai/chrome-devtools-mcp@latest
+npx ui-skills add baseline-ui
+npx ui-skills add fixing-accessibility
+npx ui-skills add fixing-motion-performance
+```
+
 ---
 
 ## MCP Token Budget
 
-MCP servers cost tokens at session start. Max 3-5 active:
+Keep 3–5 MCP servers active max:
 
 | Server | ~Token Cost |
 |--------|------------|
 | Playwright MCP | 5.3k |
-| Chrome DevTools | 5-6k |
-| Figma MCP | 3-4k |
+| Chrome DevTools | 5–6k |
+| Figma MCP | 3–4k |
 | Context7 | 2k (on-demand) |
 | 5 servers total | ~55k before first message |
 
-Use `/mcp disable <name>` when not in use. Prefer skills over MCP where possible (skills cost ~100 tokens vs thousands).
-
----
-
-## CLAUDE.md Theme Block Template
-
-For any project, add 5 lines to enforce a site-wide aesthetic:
-
-```markdown
-## Frontend Theme
-<always_use_[aesthetic_name]_theme>
-Always design with [Aesthetic] aesthetic:
-- [Key visual directive 1]
-- [Key visual directive 2]
-- [Key visual directive 3]
-- [Typography: specific font pairing]
-- [Color: specific palette anchors]
-</always_use_[aesthetic_name]_theme>
-```
+- Use `/mcp disable <name>` when not in use
+- Prefer skills over MCP servers where possible (skills ~100 tokens vs thousands)
+- Enable Tool Search for lazy loading (up to 95% cost reduction)
 
 ---
 
@@ -225,7 +348,8 @@ A well-designed Claude Code frontend output has:
 - Dark mode tokens from the start
 - Mobile-first responsive layout
 - No pure white/black — always hue-tinted neutrals
+- Tested: golden path + edge cases + keyboard nav + mobile viewport
 
 ---
 
-*Source: [Claude Code Frontend Design Toolkit](README.md) — apply these principles on every frontend task.*
+*Source: [Claude Code Frontend Design Toolkit](https://github.com/lukej01/Claude-Code-Frontend-Design-Toolkit) — applied globally on every frontend task.*
