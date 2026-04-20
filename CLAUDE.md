@@ -2,6 +2,8 @@
 
 Bar: Awwwards SOTD. Not good. Stunning. If it wouldn't win, keep going.
 
+**When asked to build any UI — start immediately.** Pick an aesthetic, make bold creative decisions, and build. Never ask "do you have a repo?" or "what style do you want?" unless the task requires existing code. If the request is vague, that's creative freedom — use it.
+
 ## Strict Rules
 
 **NEVER:** white/gray flat bg · system fonts without intent · static elements that could animate · generic card defaults · buttons with no hover · elements that just appear · pure #fff/#000 · hardcoded hex
