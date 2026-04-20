@@ -1,304 +1,221 @@
-# Frontend Standard — Awwwards-Level Output
+# Frontend Quality Standard
 
-Target: every UI should feel like it could win Awwwards Site of the Day.
-Primary reference: The Obsidian Assembly — warm editorial luxury, floating parallax images, massive serif type, mouse-reactive depth.
-
-Never ship flat, static, or generic. If it wouldn't stop someone mid-scroll, it's not done.
+Every UI must feel alive, intentional, and stunning. Reference bar: Awwwards Site of the Day level.
+The aesthetic changes per project. The quality never drops.
 
 ---
 
-## The Aesthetic: Warm Editorial Luxury (default)
+## Step 1 — Pick the Right Aesthetic First
 
-The Obsidian Assembly aesthetic — warm, not dark:
+Never start coding without choosing a direction. Ask what the site is for, then match it:
+
+| Product Type | Aesthetic Direction |
+|---|---|
+| Agency / creative studio | Editorial, Brutalist, or Maximalist |
+| SaaS / tech product | SaaS Minimal or Retro-Futuristic |
+| Luxury brand / fashion | Warm Editorial or Dark OLED Luxury |
+| Music / nightlife / gaming | Cyberpunk or Aurora Glass |
+| Health / wellness / nature | Organic Biomorphic or Solarpunk |
+| Finance / corporate | Swiss Minimalism or Cold Editorial |
+| Portfolio / personal | Any — pick what fits the person |
+
+Named aesthetics to choose from:
+
+| Aesthetic | Feel |
+|---|---|
+| **Warm Editorial** | Sand/cream, high-contrast serif, floating images, luxury breathing room |
+| **Dark OLED Luxury** | True black, gold/cream accents, thin serif, cinematic |
+| **Cyberpunk** | Pure black, neon cyan/magenta, monospace, glitch, scan lines |
+| **Aurora Glass** | Deep navy/purple mesh gradient, glass cards, glowing orbs |
+| **Swiss Minimalism** | Helvetica, strict grid, maximum white space, no decoration |
+| **Brutalism** | System fonts, visible borders, raw layout, loud color blocks |
+| **Block Maximalism** | Giant color blocks, oversized type, every pixel used |
+| **Retro-Futuristic** | Chrome gradients, geometric shapes, 80s sci-fi energy |
+| **Organic Biomorphic** | Earth tones, blob shapes, warm shadows, serif body |
+| **Editorial** | Magazine grid, mixed type scales, unexpected layout breaks |
+| **Glassmorphism** | Frosted glass surfaces, blur layers, soft color bleeds |
+| **Solarpunk** | Warm greens/golds, organic + technical, hopeful |
+
+---
+
+## Step 2 — Colors
+
+Build everything from one variable. Use OKLCH — never hardcode hex.
 
 ```css
 :root {
-  --hue: 38;
-  --bg:        oklch(0.88 0.03  var(--hue));   /* warm sand/cream */
-  --bg-deep:   oklch(0.78 0.04  var(--hue));   /* deeper sand */
-  --surface:   oklch(0.93 0.02  var(--hue));   /* light warm panel */
-  --text:      oklch(0.15 0.02  var(--hue));   /* near-black warm */
-  --text-muted:oklch(0.45 0.02  var(--hue));   /* muted warm gray */
-  --accent:    oklch(0.20 0.01  var(--hue));   /* deep obsidian */
-  --cream:     oklch(0.97 0.015 var(--hue));   /* off-white */
-  --gold:      oklch(0.72 0.12  60);           /* warm gold */
+  --hue: 250; /* change this one number to retheme everything */
+
+  --bg:      oklch(0.07 0.015 var(--hue));
+  --surface: oklch(0.12 0.02  var(--hue));
+  --border:  oklch(0.22 0.025 var(--hue));
+  --text:    oklch(0.95 0.01  var(--hue));
+  --muted:   oklch(0.55 0.02  var(--hue));
+  --accent:  oklch(0.70 0.28  var(--hue));
+  --glow:    oklch(0.70 0.28  var(--hue) / 0.3);
 }
+/* Light variant: flip --bg to oklch(0.95 ...) and --text to oklch(0.1 ...) */
 ```
 
-Always add:
-- **Grain/noise texture** — subtle `filter: url(#noise)` or CSS noise SVG overlay at 3–5% opacity
-- **Warm shadows** — `box-shadow: 0 40px 80px oklch(0.15 0.02 38 / 0.15)` not cold gray
-- **No pure white or black** — always warm-tinted
+Always:
+- Warm or cool tinted neutrals — never pure white `#fff` or black `#000`
+- Include dark mode tokens from the start
+- Layer colors: gradients, glows, or glass — never flat fills on hero sections
+- Add subtle grain/noise texture overlay (`opacity: 0.04`) for depth
 
 ---
 
-## Typography — Editorial Commanding
+## Step 3 — Typography
 
-Always use a high-contrast serif for display + clean sans for body:
+Every project needs a real font pairing. Never use system fonts without intent.
 
-| Pairing | Vibe |
-|---------|------|
-| **Cormorant Garamond + DM Sans** | Luxury editorial (closest to Obsidian Assembly) |
-| **Playfair Display + Inter** | Classic luxury |
-| **Fraunces + Cabinet Grotesk** | Modern editorial |
-| **Bodoni Moda + Helvetica Neue** | Fashion/magazine |
-| **PP Editorial New + Grotesk** | Contemporary editorial |
+Good pairings:
+- **Cormorant Garamond + DM Sans** — luxury editorial
+- **Clash Display + Cabinet Grotesk** — bold/tech
+- **Fraunces + Inter** — warm/modern
+- **Syne + Space Mono** — futuristic
+- **Playfair Display + Lato** — classic premium
+- **Space Grotesk + Space Mono** — techy clean
 
 Rules:
-- **Hero type**: `clamp(72px, 13vw, 180px)`, weight 300–400 (thin serif looks more luxury than bold), letter-spacing `-0.03em`
-- **Type bleeds off edge** — let headlines overflow the viewport. Not everything is contained.
-- **Mixed scale drama** — one word huge, next line smaller, asymmetric rhythm
-- **Italic + roman contrast** — mix italic and upright in the same headline
-- **Small caps labels** — `font-variant: small-caps`, `letter-spacing: 0.15em` for nav/metadata
-- **Overlay text** — large faded type behind images/objects as texture
-
-```css
-.hero-headline {
-  font-family: 'Cormorant Garamond', serif;
-  font-size: clamp(72px, 13vw, 180px);
-  font-weight: 300;
-  line-height: 0.9;
-  letter-spacing: -0.03em;
-}
-```
+- Hero headlines: `clamp(56px, 10vw, 160px)`, tight letter-spacing (`-0.03em`), line-height `0.9–1.0`
+- Let headlines **bleed off the viewport edge** — not everything is contained
+- **Gradient text** on key headlines: `background-clip: text; -webkit-text-fill-color: transparent`
+- Small-caps labels with wide tracking for metadata/nav: `letter-spacing: 0.12em`
+- Mix italic + upright for rhythm in editorial layouts
+- `font-variant-numeric: tabular-nums` on all numbers
 
 ---
 
-## Floating Image Cards — The Signature Effect
+## Step 4 — Animations & Motion (always, every project)
 
-The Obsidian Assembly's most iconic feature: images float at angles, move on scroll and mouse.
+### On every page load:
+- Elements don't just appear — they reveal with intention
+- Stagger: logo → nav → headline words → subtext → CTA → background
+- Typical timing: 200ms between each layer, total under 1.5s
 
-```js
-// Tilted floating cards that parallax on scroll + mouse
-class FloatingCard {
-  constructor(el, options = {}) {
-    this.el = el
-    this.baseRotate = options.rotate || -8   // initial tilt
-    this.parallaxSpeed = options.speed || 0.12
-    this.mouseStrength = options.mouse || 0.04
-    this.y = 0
-    this.targetY = 0
+### On every scroll:
+- **Word/line reveals**: clip text behind a container, slide up on intersection
+  ```js
+  // Split into words, each wrapped in overflow:hidden, inner slides up
+  // Stagger 60ms per word, cubic-bezier(0.16, 1, 0.3, 1)
+  ```
+- **Fade + rise**: `opacity: 0; transform: translateY(40px)` → normal, triggered at 20% viewport
+- **Parallax depth**: background at 0.2x scroll speed, content at 1x — creates layers
+- **Scroll progress bar**: 2px line at top of page tracking scroll %
+- Native CSS scroll-driven (no JS needed for simple reveals):
+  ```css
+  .reveal {
+    animation: fade-up linear both;
+    animation-timeline: view();
+    animation-range: entry 0% entry 35%;
   }
+  ```
 
-  onScroll(scrollY) {
-    this.targetY = scrollY * this.parallaxSpeed
-  }
-
-  onMouseMove(mouseX, mouseY, centerX, centerY) {
-    const dx = (mouseX - centerX) * this.mouseStrength
-    const dy = (mouseY - centerY) * this.mouseStrength
-    this.el.style.transform = `
-      rotate(${this.baseRotate}deg)
-      translate(${dx}px, ${this.y + dy}px)
-    `
-  }
-
-  tick() {
-    this.y += (this.targetY - this.y) * 0.08  // lerp
-    this.el.style.transform = `rotate(${this.baseRotate}deg) translateY(${this.y}px)`
-  }
-}
-```
-
-CSS for the cards:
-```css
-.floating-card {
-  position: absolute;
-  border-radius: 4px;
-  overflow: hidden;
-  box-shadow: 0 60px 120px oklch(0.1 0.02 38 / 0.25);
-  transform-origin: center center;
-  will-change: transform;
-}
-.floating-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform 0.6s ease;
-}
-.floating-card:hover img { transform: scale(1.04); }
-```
-
----
-
-## Scroll Animations — Everything Is Alive
-
-Every section must animate. No element should appear statically:
-
-### Text reveals (word by word):
-```js
-// Split text into spans, stagger reveal
-const words = el.textContent.split(' ')
-el.innerHTML = words.map(w =>
-  `<span class="word"><span class="word-inner">${w}</span></span>`
-).join(' ')
-
-// CSS: .word { overflow: hidden } .word-inner { transform: translateY(110%); transition: transform 0.7s cubic-bezier(0.16,1,0.3,1) }
-// On intersection: .word-inner { transform: translateY(0) }
-// Stagger: each word adds 60ms delay
-```
-
-### Scroll-driven reveals (native CSS — no JS needed):
-```css
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(50px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.reveal {
-  animation: fade-up linear both;
-  animation-timeline: view();
-  animation-range: entry 0% entry 35%;
-}
-```
-
-### Must-have scroll effects per page:
-- Staggered word/line reveal on all headlines
-- Images enter with `scale(0.95) opacity(0)` → normal
-- Floating cards drift at different parallax speeds
-- Horizontal pinned scroll for a feature/gallery section
-- Scroll progress bar (2px line, top of page)
-- Numbers count up when entering viewport
-- Section backgrounds shift color temperature subtly on scroll
-
-### Smooth scroll — always use Lenis:
+### Smooth scroll — always:
 ```js
 import Lenis from '@studio-freight/lenis'
-const lenis = new Lenis({
-  duration: 1.4,
-  easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-  smooth: true,
-})
-function raf(time) { lenis.raf(time); requestAnimationFrame(raf) }
+const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10*t)) })
+function raf(t) { lenis.raf(t); requestAnimationFrame(raf) }
 requestAnimationFrame(raf)
 ```
 
----
+### On hover — nothing is static:
+- Buttons: color sweep, border animation, or scale `1.02` — always something
+- Cards: `translateY(-6px)`, shadow deepens, inner content shifts slightly
+- Images: `scale(1.04)` with `overflow: hidden` on parent
+- Links: underline draws from left `scaleX(0 → 1)` or letter-spacing expands
+- Nav items: subtle color + spacing transition
 
-## Cursor Effects
-
-Custom cursor is expected on luxury editorial sites:
-
+### Floating / parallax elements:
+When the design calls for it (hero sections, feature showcases):
 ```js
-// Smooth custom cursor with lag
-const cursor = { x: 0, y: 0, tx: 0, ty: 0, scale: 1 }
-
-document.addEventListener('mousemove', e => {
-  cursor.tx = e.clientX
-  cursor.ty = e.clientY
-})
-
-// On hover over interactive elements
-document.querySelectorAll('a, button, .card').forEach(el => {
-  el.addEventListener('mouseenter', () => cursor.scale = 2.5)
-  el.addEventListener('mouseleave', () => cursor.scale = 1)
-})
-
-// In RAF loop: lerp toward target
-cursor.x += (cursor.tx - cursor.x) * 0.12
-cursor.y += (cursor.ty - cursor.y) * 0.12
-cursorEl.style.transform = `translate(${cursor.x}px,${cursor.y}px) scale(${cursor.scale})`
-```
-
-CSS:
-```css
-.cursor {
-  width: 12px; height: 12px;
-  border-radius: 50%;
-  background: oklch(0.15 0.02 38);
-  position: fixed; top: -6px; left: -6px;
-  pointer-events: none; z-index: 9999;
-  transition: transform 0.15s ease, background 0.2s ease;
-  mix-blend-mode: multiply;          /* inverts on light bg — elegant */
-}
-```
-
-### Magnetic buttons:
-```js
-document.querySelectorAll('.btn-magnetic').forEach(btn => {
-  btn.addEventListener('mousemove', e => {
-    const r = btn.getBoundingClientRect()
-    const x = (e.clientX - r.left - r.width/2) * 0.3
-    const y = (e.clientY - r.top - r.height/2) * 0.3
-    btn.style.transform = `translate(${x}px,${y}px)`
+// Elements move at different speeds on scroll — creates 3D depth
+const layers = [
+  { el: bgEl,   speed: 0.15 },
+  { el: midEl,  speed: 0.4  },
+  { el: fgEl,   speed: 0.7  },
+]
+window.addEventListener('scroll', () => {
+  layers.forEach(({ el, speed }) => {
+    el.style.transform = `translateY(${scrollY * speed}px)`
   })
-  btn.addEventListener('mouseleave', () => btn.style.transform = '')
 })
 ```
 
 ---
 
-## Layout Patterns
+## Step 5 — Cursor Effects (on desktop)
 
-- **Hero**: 100vh, massive type overlapping a centered 3D object/image, floating cards on edges
-- **Oversized type as texture**: giant faded headline behind content — `opacity: 0.06`, `font-size: 20vw`
-- **Asymmetric columns**: 60/40 or 70/30 splits, not 50/50
-- **Sparse metadata labels**: small-caps, wide tracking, muted color — placed unexpectedly (top-right corners, vertical rotated)
-- **Image bleeds**: photos that extend beyond their containers
-- **Object showcase sections**: single product/object centered, white space around it, type orbiting it
-- **Diagonal clip dividers**: `clip-path: polygon(0 0, 100% 0, 100% 90%, 0 100%)`
-- **Sticky narrative**: element pins while text/images scroll past, creating a storytelling sequence
+Always add at least one cursor enhancement on creative/luxury sites:
 
----
+```js
+// Smooth lagging cursor
+const pos = { x: 0, y: 0 }
+const target = { x: 0, y: 0 }
+document.addEventListener('mousemove', e => { target.x = e.clientX; target.y = e.clientY })
+;(function loop() {
+  pos.x += (target.x - pos.x) * 0.1
+  pos.y += (target.y - pos.y) * 0.1
+  cursor.style.transform = `translate(${pos.x}px,${pos.y}px)`
+  requestAnimationFrame(loop)
+})()
 
-## Hover States — Nothing Is Static
-
-- **Images**: `scale(1.03)`, warm shadow deepens, optional color overlay fades in
-- **Cards**: lift `translateY(-8px)`, shadow grows, border subtly appears
-- **Buttons**: background sweeps in, or border animates, or text shifts color — always something
-- **Nav links**: underline draws in with `scaleX(0→1)` from left, or letter-spacing expands
-- **Large type links**: slight blur on non-hovered siblings (sibling blur effect)
-
----
-
-## Load Sequence
-
-```
-0ms    → blank warm bg
-200ms  → logo appears (fade + slight up)
-400ms  → nav items stagger in
-600ms  → headline first word reveals
-750ms  → headline second word reveals
-900ms  → subheadline fades in
-1100ms → floating cards drift in from edges
-1300ms → CTA button scales in
-1500ms → grain texture fades on
+// Grow on hover
+document.querySelectorAll('a,button,[data-cursor]').forEach(el => {
+  el.addEventListener('mouseenter', () => cursor.classList.add('hover'))
+  el.addEventListener('mouseleave', () => cursor.classList.remove('hover'))
+})
 ```
 
+```css
+.cursor { width:12px; height:12px; border-radius:50%; position:fixed; pointer-events:none; z-index:9999; top:-6px; left:-6px; }
+.cursor.hover { transform: scale(3) !important; opacity: 0.5; }
+```
+
+Magnetic buttons on key CTAs:
+```js
+btn.addEventListener('mousemove', e => {
+  const r = btn.getBoundingClientRect()
+  btn.style.transform = `translate(${(e.clientX - r.left - r.width/2) * 0.3}px, ${(e.clientY - r.top - r.height/2) * 0.3}px)`
+})
+btn.addEventListener('mouseleave', () => btn.style.transform = '')
+```
+
 ---
 
-## Named Aesthetics
+## Step 6 — Layout Craft
 
-| Name | Background | Type | Accent |
-|------|-----------|------|--------|
-| **Warm Editorial** | Sand/cream beige | High-contrast thin serif | Obsidian black + gold |
-| **Dark OLED Luxury** | True `#000` | Thin serif or sans | Gold/cream |
-| **Cyberpunk** | Pure black | Monospace | Neon cyan + magenta |
-| **Aurora Glass** | Deep navy/purple | Clean sans | Teal + violet glow |
-| **Cold Editorial** | Cool gray-white | Condensed grotesque | Stark black |
-| **Organic Warm** | Warm off-white | Rounded serif | Terracotta + olive |
-| **Brutalist** | White or black | System font bold | One loud accent |
+- **Asymmetric grids** — break 50/50 splits. Use 60/40, 70/30, or free positioning
+- **Oversized decorative type** — giant faded text behind content, `opacity: 0.05–0.08`
+- **Image tilt** — cards and images at slight angles (`rotate: -4deg`) feel alive
+- **Glass surfaces** — `backdrop-filter: blur(20px)`, `background: white/5%`, `border: 1px solid white/10%`
+- **Diagonal section breaks** — `clip-path: polygon(0 0, 100% 0, 100% 88%, 0 100%)`
+- **Sticky scroll narratives** — element pins while content scrolls past, changing its state
+- **Full-bleed images** that escape their containers
 
 ---
 
 ## Accessibility (always)
 
-- All animations wrapped in `prefers-reduced-motion` check
-- WCAG AA contrast even on warm/muted palettes
-- Custom cursor falls back gracefully on touch/mobile
-- Semantic HTML (`<main>`, `<section>`, `<nav>`, `<button>`)
-- Keyboard nav + visible focus states on everything
+- `prefers-reduced-motion`: disable all animations and parallax when set
+- WCAG AA contrast minimum on all text
+- Semantic HTML — `<main>`, `<nav>`, `<section>`, `<button>`, never `<div>` for interaction
+- Custom cursor is decorative — remove on touch devices
+- Keyboard navigation + visible focus states on all interactive elements
 
 ---
 
 ## Done Checklist
 
-- [ ] Would this win Awwwards SOTD?
-- [ ] Is there a real font pairing — high-contrast serif for display?
-- [ ] Do images float, tilt, and parallax?
-- [ ] Does every headline reveal word-by-word on scroll?
-- [ ] Is there a custom cursor with smooth lag?
-- [ ] Are magnetic buttons on key CTAs?
-- [ ] Does the hero have a timed load sequence?
-- [ ] Is there depth — floating layers, warm shadows, grain texture?
-- [ ] Do all hover states animate?
-- [ ] Does `prefers-reduced-motion` disable the heavy stuff?
+- [ ] Is the aesthetic named and intentional — not "modern" or "clean"?
+- [ ] Is the color system built from `--hue` with OKLCH — no hardcoded hex?
+- [ ] Real font pairing — not system fonts?
+- [ ] Do headlines reveal word by word on scroll?
+- [ ] Does every section animate on entering the viewport?
+- [ ] Do all hover states have a visible reaction?
+- [ ] Is there smooth scroll (Lenis)?
+- [ ] Is there a cursor effect on desktop?
+- [ ] Is there depth — parallax, shadows, layers, or texture?
+- [ ] Does `prefers-reduced-motion` turn off the heavy stuff?
+- [ ] Would this stop someone mid-scroll?
