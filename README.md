@@ -49,6 +49,20 @@ What changes:
 
 Install this first. Everything else on this list assumes you have it.
 
+### UIZZE — Anti-UI-Slop Skill
+
+A free finish-gate workflow that grounds Claude Code in a public catalogue of 800,000+ real web and iOS screens before it writes UI. It requires a short design contract, explicit interaction and responsive states, and a pre-ship review that rejects interchangeable card grids, filler metrics, decorative gradients, inert controls, and missing states.
+
+| | |
+|---|---|
+| **Author** | UIZZE |
+| **Install** | `npx skills add https://uizze.com --skill anti-ui-slop` |
+| **Type** | Skill + hosted MCP |
+| **Website** | [uizze.com](https://uizze.com) |
+| **Source** | [aislon/uizze-mcp](https://github.com/aislon/uizze-mcp) |
+
+Also works with Codex, Cursor, Copilot, and other coding agents that support the Agent Skills format.
+
 ### UI/UX Pro Max — 62.6k stars
 
 240+ styles, 127 font pairings, 99 UX guidelines. Tell it "fintech dashboard" and it picks a design system that makes sense for fintech. The v2.0 reasoning engine does the style matching automatically.
@@ -655,6 +669,7 @@ npx ui-skills add fixing-motion-performance
 | Tool | Type | Category | Stars | Setup |
 |------|------|----------|-------|-------|
 | Frontend Design | Skill | Design | Official | One command |
+| UIZZE | Skill | Design | — | One command |
 | UI/UX Pro Max | Skill | Design | 16.9k | One command |
 | Taste Skill | Skill | Design | — | One command |
 | Frontend Design Pro | Skill | Design | — | One command |
