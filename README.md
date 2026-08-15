@@ -104,7 +104,7 @@ Two modes: **Controlled** (ship to prod — WCAG, full responsive specs, motion 
 |---|---|
 | **Author** | bencium |
 | **Install** | `cp -r bencium-controlled-ux-designer ~/.claude/skills/` |
-| **Source** | [bencium/bencium-claude-code-design-skill](https://github.com/bencium/bencium-claude-code-design-skill) |
+| **Source** | [bencium/bencium-claude-code-design-skill](https://github.com/bencium/bencium-marketplace) |
 
 Files included: `SKILL.md`, `ACCESSIBILITY.md` (~830 lines), `RESPONSIVE-DESIGN.md` (~600 lines), `MOTION-SPEC.md`, `DESIGN-SYSTEM-TEMPLATE.md`
 
@@ -314,6 +314,7 @@ Full-stack skill library. The frontend-relevant ones: React Expert (Server Compo
 |---|---|
 | **Install** | See [Quick Start Guide](https://jeffallan.github.io/claude-skills) |
 | **Source** | [Jeffallan/claude-skills](https://github.com/Jeffallan/claude-skills) |
+| [Xquik](https://github.com/Xquik-dev/x-twitter-scraper) | Independent X (Twitter) data API for search, follower export, monitors, and MCP. |
 
 ### UI/UX Design Skill (Useforclaude)
 
