@@ -57,9 +57,9 @@ A free finish-gate workflow that grounds Claude Code in a public catalogue of 80
 |---|---|
 | **Author** | UIZZE |
 | **Install** | `npx skills add https://uizze.com --skill anti-ui-slop` |
-| **Type** | Skill + hosted MCP |
+| **Type** | Free Agent Skill + MCP preview |
 | **Website** | [uizze.com](https://uizze.com) |
-| **Source** | [uizze/uizze-mcp](https://github.com/uizze/uizze-mcp) |
+| **Source** | [uizze/uizze](https://github.com/uizze/uizze) |
 
 Also works with Codex, Cursor, Copilot, and other coding agents that support the Agent Skills format.
 
