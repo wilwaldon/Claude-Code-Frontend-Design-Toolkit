@@ -379,6 +379,17 @@ For building multi-component claude.ai HTML artifacts with React, Tailwind, and 
 |---|---|
 | **Source** | [awesome-claude-skills](https://github.com/ComposioHQ/awesome-claude-skills) |
 
+### Kite MCP + Skill (Official)
+
+A shared design canvas Claude draws on directly. Through Kite's hosted MCP server, Claude Code creates real, editable layers (frames, text, components, auto layout) in a Kite file your team edits live, instead of a one-off mockup in the chat. Any frame copies out as HTML, React or Tailwind for the build step, or to Figma.
+
+| | |
+|---|---|
+| **Author** | Kite |
+| **Install** | `/plugin marketplace add kitedotnew/kite-agent-plugins` then `/plugin install kite@kite` (bundles the MCP server and the `kite` skill) |
+| **Requires** | Free Kite account; OAuth sign-in in the browser, no API key |
+| **Source** | [kitedotnew/kite-agent-plugins](https://github.com/kitedotnew/kite-agent-plugins) (MIT) |
+
 ---
 
 ## Testing & Browser Automation
